@@ -23,15 +23,16 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import com.toddkushnerllc.diagram.Diagram
 
+/**
+ * DrawingApp is the primary driver for the app
+ */
 @Composable
 fun DrawingApp(diagram: Diagram) {
-
-    //  val context = LocalContext.current
-
     val state: MutableState<Boolean> = remember { mutableStateOf(false) }
 
     /**
      * LogGesture - detects whether a tap or drag end touches a diagram edge or hold
+     * or a swipe is parallel to an edge
      */
     val TAG = "tag"
     fun LogGesture(label: String, action: String, start: Offset?, end: Offset?) {
@@ -42,6 +43,8 @@ fun DrawingApp(diagram: Diagram) {
 
     var press: Offset? = null
     var lastDrag: Offset? = null
+
+    // modifier to pick up both taps and swipes/drags
     val drawModifier = Modifier
         .padding(8.dp)
         .shadow(1.dp)
@@ -142,6 +145,7 @@ fun DrawingApp(diagram: Diagram) {
                 }
             )
         }
+    // redraws diagram after selecting a node
     Canvas(modifier = drawModifier) {
         state.value?.let {
             state.value = false

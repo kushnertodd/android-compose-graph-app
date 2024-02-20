@@ -8,19 +8,14 @@ class Diagram {
     var holds = Holds()
     var edges = Edges()
     var highlighted_hold: Hold? = null
-    var highlighted_edge: Edge? = null
     val scroll_threshhold = 30;
 
+    // unhighlight selected node
     fun unhighlight() {
         val h = highlighted_hold
         if (h != null) {
             h.highlighted = false
             highlighted_hold = null
-        }
-        val e = highlighted_edge
-        if (e != null) {
-            e.highlighted = false
-            highlighted_edge = null
         }
     }
 
@@ -47,6 +42,7 @@ class Diagram {
                     return true
                 }
             }
+            // select hold at the opposite end of an edge from the selected node
             edges.edge_set.forEach() {
                 val edge = it
                 if (edge.touched(upX, upY)) {
