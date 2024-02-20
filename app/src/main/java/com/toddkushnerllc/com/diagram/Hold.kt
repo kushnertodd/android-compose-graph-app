@@ -36,6 +36,11 @@ class Hold(
         canvas.drawCircle(center_x, center_y, radius.toFloat(), draw_paint)
     }
 
+    /**
+     * scrolled -- find other edge across an edge that is maximally parallel to swipe
+     * @param dx width of swipe
+     * @param dy height of swipe
+     */
     fun scrolled(dx: Float, dy: Float): Hold? {
         Log.d("Hold.scrolled", "dx $dx dy $dy")
         val d = sqrt(dx * dx + dy * dy)
@@ -44,11 +49,13 @@ class Hold(
         arcs.arc_set.forEach {
             val arc = it
             val arc_cos = arc.dot_cos(dx, dy, d)
+            // does the dot product of swipe and edge indicate they are roughly parallel
             if (arc_cos > max_cos) {
                 max_cos = arc_cos
                 max_hold = arc.target
             }
         }
+        // return hold across arc 
         if (max_cos > cos_threshold)
             return max_hold
         else

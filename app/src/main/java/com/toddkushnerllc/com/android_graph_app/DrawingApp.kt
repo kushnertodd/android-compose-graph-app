@@ -30,6 +30,9 @@ fun DrawingApp(diagram: Diagram) {
 
     val state: MutableState<Boolean> = remember { mutableStateOf(false) }
 
+    /**
+     * LogGesture - detects whether a tap or drag end touches a diagram edge or hold
+     */
     val TAG = "tag"
     fun LogGesture(label: String, action: String, start: Offset?, end: Offset?) {
         Log.d(TAG, "$label $action from $start to $end")

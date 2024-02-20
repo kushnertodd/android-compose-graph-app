@@ -24,6 +24,9 @@ class Diagram {
         }
     }
 
+    /**
+     * touched -- detect whether diagram hold is close to a tap or edge is parallel to swipe
+     */
     fun touched(down: Offset, up: Offset): Boolean {
         val downX = down.x
         val downY = down.y
@@ -34,6 +37,7 @@ class Diagram {
         val dx = upX - downX
         val d = sqrt(dx * dx + dy * dy)
         if (d < scroll_threshhold) {
+            // is drag long enough to consider it a swipe
             holds.hold_map.forEach() {
                 val hold = it.value
                 if (hold.touched(upX, upY)) {
@@ -62,6 +66,7 @@ class Diagram {
             }
         } else {
             if (highlighted_hold != null) {
+                // if a hold is currently highlighted, detect if swipe parallel to hold edge
                 val hold = highlighted_hold!!.scrolled(dx, dy)
                 if (hold != null) {
                     unhighlight()
